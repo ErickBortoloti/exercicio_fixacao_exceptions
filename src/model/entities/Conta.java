@@ -1,5 +1,7 @@
 package model.entities;
 
+import java.util.InputMismatchException;
+
 import model.exceptions.DominioExceptions;
 
 public class Conta {
@@ -7,6 +9,9 @@ public class Conta {
 	private String nome;
 	private Double Saldo;
 	private Double limiteDeSaque;
+	
+	public Conta() {
+	}
 	
 	public Conta(Integer numero, String nome, Double saldo, Double limiteDeSaque) throws DominioExceptions {
 		this.numero = numero;
@@ -47,17 +52,23 @@ public class Conta {
 		this.limiteDeSaque = limiteDeSaque;
 	}
 	
-	public double saque(double saque) throws DominioExceptions  {
-	       if (saque > limiteDeSaque) {
-	            throw new DominioExceptions("ERRO DE SAQUE: Valor para saque não pode ser maior que o limite");
-	        }
-
-	        if (saque > Saldo) {
-	            throw new DominioExceptions("ERRO DE SAQUE: Saldo insuficiente");
-	        }
-
-	        return Saldo -= saque;
+	
+	public void deposito(double valor) {
+		Saldo += valor;
+	}
+	
+	public void saque(double valor)  {
+			validarSaque(valor);
+	        Saldo -= valor;
 	    }
+	private void validarSaque(double saque) {
+		if (saque > getLimiteDeSaque()) {
+			throw new DominioExceptions("Erro de saque: A quantia excede o limite de saque");
+		}
+		if (saque > getSaldo()) {
+			throw new DominioExceptions("Erro de saque: Saldo insuficiente");
+		}
+	}
 	
 	
 	@Override
@@ -65,12 +76,12 @@ public class Conta {
 	public String toString() {
 		return "Numero da conta: " 
 			  + numero
-			  + "\nTitular "
+			  + "\nTitular da conta: "
 			  + nome
-			  + "\nSaldo inicial: "
-			  + Saldo
 			  + "\nLimite de empréstimo: R$"
-			  + limiteDeSaque;
+			  + limiteDeSaque
+			  + "\nSaldo atual: "
+			  + Saldo;
 	
 	
 

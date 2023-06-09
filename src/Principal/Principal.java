@@ -14,7 +14,6 @@ public class Principal {
 		
 		
 		System.out.println("Dados da conta");
-		
 		try {
 		System.out.print("Número da conta: ");
 		int c = teclado.nextInt();
@@ -28,15 +27,22 @@ public class Principal {
 		Conta conta = new Conta(c, n, i, l);
 		
 		System.out.println();
-		System.out.println("Digite o valor do que deseja sacar: ");
-		double saque = teclado.nextDouble();
+		System.out.print("Digite o valor do que deseja sacar: ");
+		double valor = teclado.nextDouble();
 		
-		System.out.println(conta.saque(saque));
+
+		conta.saque(valor);
+		System.out.println(conta);
 		}
-		catch(InputMismatchException e) {
-			System.out.println("Erro de cadastro: digite em formato de número");	
+		catch (InputMismatchException e) {
+			System.out.println("Erro de digitação!");
 		}
-	
+		catch (DominioExceptions e) {
+			System.out.println(e.getMessage());
+		}
+
+
+		
 
 	}
 
